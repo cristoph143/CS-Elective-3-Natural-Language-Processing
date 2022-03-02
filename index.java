@@ -4,7 +4,7 @@ public class index {
     public static void main(String[] args) {
         try (Scanner sc = new Scanner(System.in)) {
             while (true) {
-                System.out.println("Enter your choice: ");
+                menu();
                 int choice = sc.nextInt();
                 sc.nextLine();
                 System.out.println("Please enter the Sentence: ");
@@ -12,10 +12,12 @@ public class index {
                 switch (choice) {
                     case 1:
                         String[] tokenized = space_tokenize(sentence);
-                        //iterate through tokens
+                        // iterate through tokens
+                        System.out.print("Tokenized Sentence: [");
                         for (String token : tokenized) {
-                            System.out.println(token + "dsdsds");
+                            System.out.print(token + ",");
                         }
+                        System.out.println("]");
                         break;
                     case 2:
                         System.out.println("You have chosen to view all students");
@@ -43,17 +45,38 @@ public class index {
         System.out.println("3. Quit");
         System.out.println("Enter your choice: ");
     }
-    
-    //return the array of tokens being tokenized without using libraries
-    public static String[] space_tokenize(String str){
-        String[] tokens = new String[100];
-        int i = 0;
-        for(int j = 0; j < str.length(); j++){
-            if(str.charAt(j) == ' '){
-                tokens[i] = str.substring(j, j+1);
-                i++;
+
+    private static String[] space_tokenize(String sentence) {
+        // if str is empty, return empty array
+        if (sentence.isEmpty()) {
+            return new String[0];
+        }
+        // declare a new variable for tokens
+        String[] tokens = new String[0];
+        // while str is not a whitespace
+        while (!sentence.isEmpty()) {
+            // if the index of the str is whitespace then add the substring of the first
+            // index until the -1 index before the whitespace
+            if (sentence.indexOf(" ") == -1) {
+                tokens = add(tokens, sentence.substring(0, sentence.length()));
+                sentence = "";
+            } else {
+                tokens = add(tokens, sentence.substring(0, sentence.indexOf(" ")));
+                sentence = sentence.substring(sentence.indexOf(" ") + 1);
             }
+
         }
         return tokens;
     }
+
+    private static String[] add(String[] tokens, String substring) {
+        String[] newTokens = new String[tokens.length + 1];
+        for (int i = 0; i < tokens.length; i++) {
+            newTokens[i] = tokens[i];
+        }
+        newTokens[tokens.length] = substring;
+        return newTokens;
+    }
 }
+
+// String sentence = "I have beautiful xxccxc! dssdh ddfde,u sds???";
