@@ -15,7 +15,13 @@ public class index {
                         // iterate through tokens
                         System.out.print("Tokenized Sentence: [");
                         for (String token : tokenized) {
-                            System.out.print(token + ",");
+                            //if it is the last token, remo the comma
+                            if (token.equals(tokenized[tokenized.length - 1])) {
+                                System.out.print(token);
+                            } 
+                            else {
+                                System.out.print(token + ", ");
+                            }
                         }
                         System.out.println("]");
                         break;
