@@ -11,7 +11,11 @@ public class index {
                 String sentence = sc.nextLine();
                 switch (choice) {
                     case 1:
-                        space_tokenize(sentence);
+                        String[] tokenized = space_tokenize(sentence);
+                        //iterate through tokens
+                        for (String token : tokenized) {
+                            System.out.println(token + "dsdsds");
+                        }
                         break;
                     case 2:
                         System.out.println("You have chosen to view all students");
@@ -41,7 +45,7 @@ public class index {
     }
     
     //return the array of tokens being tokenized without using libraries
-    public static void space_tokenize(String str){
+    public static String[] space_tokenize(String str){
         String[] tokens = new String[100];
         int i = 0;
         for(int j = 0; j < str.length(); j++){
@@ -50,14 +54,6 @@ public class index {
                 i++;
             }
         }
-        // print_tokens(tokens);    
-        System.out.println("The tokens are: " + tokens);
+        return tokens;
     }
-
-    private static void print_tokens(String[] tokens) {
-        for(int i = 0; i < tokens.length; i++){
-            System.out.println(tokens[i] + "'dsdsd'");
-        }
-    }
-    
 }
