@@ -24,16 +24,18 @@ public class normalization {
         word = removePlurals(word);
         System.out.println("Plurals removed: " + word);
         //remove the 'ed' or ing if found
-        word = removeEd(word);
-        System.out.println("'ed' or 'ing' removed: " + word);
+        // word = removeEd(word);
+        // System.out.println("'ed' or 'ing' removed: " + word);
         //if there is no 'ed' or 'ing' found then recode remaining stem else recode 'y' to 'i' if another vowel is found in the stem
         if (word.endsWith("ed") || word.endsWith("ing")) {
-            word = recode(word);
+            word = removeEd(word);
+            System.out.println("'ed' or 'ing' removed: " + word);
         } else {
             word = recodeY(word);
         }
         System.out.println("Stem recoded: " + word);
-        
+        //index penultimate or get the last 2 index letter of stem.
+        int index = word.length() - 2;
         return word;
     }
     //remove plurals
@@ -61,52 +63,6 @@ public class normalization {
         //if the word ends with 'ing' then remove it
         if (word.endsWith("ing")) {
             word = word.substring(0, word.length() - 3);
-        }
-        return word;
-    }
-    //recode
-    public static String recode(String word) {
-        //if the word ends with 'ed' then recode the stem
-        if (word.endsWith("ed")) {
-            //if the word ends with 'at' or 'bl' or 'iz' or 'ed' then recode the stem
-            if (word.endsWith("at") || word.endsWith("bl") || word.endsWith("iz")) {
-                word = word + "e";
-            }
-            //if the word ends with 'bb' or 'dd' or 'ff' or 'gg' or 'mm' or 'nn' or 'pp' or 'rr' or 'tt' then recode the stem
-            else if (word.endsWith("bb") || word.endsWith("dd") || word.endsWith("ff") 
-            || word.endsWith("gg") || word.endsWith("mm") || word.endsWith("nn") 
-            || word.endsWith("pp") || word.endsWith("rr") || word.endsWith("tt")) {
-                word = word.substring(0, word.length() - 1);
-            }
-            //if the word ends with 'ch' or 'sh' then recode the stem
-            else if (word.endsWith("ch") || word.endsWith("sh")) {
-                word = word.substring(0, word.length() - 1) + "e";
-            }
-            //if the word ends with 'y' then recode the stem
-            else if (word.endsWith("y")) {
-                word = word.substring(0, word.length() - 1) + "i";
-            }
-        }
-        //if the word ends with 'ing' then recode the stem
-        else if (word.endsWith("ing")) {
-            //if the word ends with 'at' or 'bl' or 'iz' then recode the stem
-            if (word.endsWith("at") || word.endsWith("bl") || word.endsWith("iz")) {
-                word = word + "e";
-            }
-            //if the word ends with 'bb' or 'dd' or 'ff' or 'gg' or 'mm' or 'nn' or 'pp' or 'rr' or 'tt' then recode the stem
-            else if (word.endsWith("bb") || word.endsWith("dd") || word.endsWith("ff") 
-            || word.endsWith("gg") || word.endsWith("mm") || word.endsWith("nn") 
-            || word.endsWith("pp") || word.endsWith("rr") || word.endsWith("tt")) {
-                word = word.substring(0, word.length() - 1);
-            }
-            //if the word ends with 'ch' or 'sh' then recode the stem
-            else if (word.endsWith("ch") || word.endsWith("sh")) {
-                word = word.substring(0, word.length() - 1) + "e";
-            }
-            //if the word ends with 'y' then recode the stem
-            else if (word.endsWith("y")) {
-                word = word.substring(0, word.length() - 1) + "i";
-            }
         }
         return word;
     }
