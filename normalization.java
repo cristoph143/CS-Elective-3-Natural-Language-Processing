@@ -23,10 +23,6 @@ public class normalization {
         //remove and recode the plurals
         word = removePlurals(word);
         System.out.println("Plurals removed: " + word);
-        //remove the 'ed' or ing if found
-        // word = removeEd(word);
-        // System.out.println("'ed' or 'ing' removed: " + word);
-        //if there is no 'ed' or 'ing' found then recode remaining stem else recode 'y' to 'i' if another vowel is found in the stem
         if (word.endsWith("ed") || word.endsWith("ing")) {
             word = removeEd(word);
             System.out.println("'ed' or 'ing' removed: " + word);
@@ -36,6 +32,46 @@ public class normalization {
         System.out.println("Stem recoded: " + word);
         //index penultimate or get the last 2 index letter of stem.
         int index = word.length() - 2;
+        //if words contains double suffix then map to single suffix
+        if (word.endsWith("es") || word.endsWith("s")) {
+            word = mapToSingleSuffix(word);
+            System.out.println("Map to single suffix: " + word);
+            return word;
+        }
+        else{
+            //if word does not contain double suffix then index the final letter of the word.
+            index = word.length() - 1;
+        }
+        //if the word ending match with the stem then remove the ending.
+        if (word.endsWith("y") && word.charAt(index) == 'a') {
+            word = word.substring(0, index);
+            System.out.println("Stem removed: " + word);
+            return word;
+        }
+        else{
+            //index penultimate or get the last 2 index letter of stem.
+            index = word.length() - 2;
+        }
+        //if the word ending match with the stem then remove the ending.
+        if (word.endsWith("e") && word.charAt(index) == 'a') {
+            //if it satisfy '<c>vcvc<v>' then remove the ending.
+            if (word.length() > 4 && word.charAt(word.length() - 4) == 'a' && word.charAt(word.length() - 3) == 'c') {
+                word = word.substring(0, index);
+                System.out.println("Stem removed: " + word);
+                return word;
+            }
+        }
+        else{
+            //index penultimate or get the last 2 index letter of stem.
+            index = word.length() - 2;
+        }
+        //remove final 'e' only if more than one consonant is present in stem.
+        if (word.endsWith("e") && word.length() > 2 && word.charAt(index) != 'a') {
+            word = word.substring(0, index);
+            System.out.println("Stem removed: " + word);
+        }
+
+        //return the stem word
         return word;
     }
     //remove plurals
@@ -43,10 +79,12 @@ public class normalization {
         //if the word ends with 'ies' then remove it
         if (word.endsWith("ies")) {
             word = word.substring(0, word.length() - 3) + "y";
+            return word;
         }
         //if the word ends with 'es' then remove it
         if (word.endsWith("es")) {
             word = word.substring(0, word.length() - 2);
+            return word;
         }
         //if the word ends with 's' then remove it
         if (word.endsWith("s")) {
@@ -59,6 +97,7 @@ public class normalization {
         //if the word ends with 'ed' then remove it
         if (word.endsWith("ed")) {
             word = word.substring(0, word.length() - 2);
+            return word;
         }
         //if the word ends with 'ing' then remove it
         if (word.endsWith("ing")) {
@@ -74,5 +113,16 @@ public class normalization {
         }
         return word;
     }
-
+    //mapToSingleSuffix
+    public static String mapToSingleSuffix(String word) {
+        //if the word ends with 'es' then remove it
+        if (word.endsWith("es")) {
+            word = word.substring(0, word.length() - 2);
+        }
+        //if the word ends with 's' then remove it
+        if (word.endsWith("s")) {
+            word = word.substring(0, word.length() - 1);
+        }
+        return word;
+    }
 }
