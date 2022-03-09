@@ -4,12 +4,12 @@ public class normalization {
     public static void main(String[] args) {
         try (// enter a word
                 Scanner input = new Scanner(System.in)) {
-                System.out.print("Enter a word: ");
-                String word = input.nextLine();
-                String stem = stem(word);
-                // print the word and the stem
-                System.out.println("Word: " + word);
-                System.out.println("Stem: " + stem);
+            System.out.print("Enter a word: ");
+            String word = input.nextLine();
+            String stem = stem(word);
+            // print the word and the stem
+            System.out.println("Word: " + word);
+            System.out.println("Stem: " + stem);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -33,7 +33,22 @@ public class normalization {
         }
         System.out.println("Stem recoded: " + word);
         word = step1b(word);
-
+        System.out.println("Step 1b: " + word);
+        // Step 2.
+        word = step2(word);
+        System.out.println("Step 2: " + word);
+        // Step 3.
+        word = step3(word);
+        System.out.println("Step 3: " + word);
+        // Step 4.
+        word = step4(word);
+        System.out.println("Step 4: " + word);
+        // Step 5a.
+        word = step5a(word);
+        System.out.println("Step 5a: " + word);
+        // Step 5b.
+        word = step5b(word);
+        System.out.println("Step 5b: " + word);
         /*
          * // index penultimate or get the last 2 index letter of stem.
          * int index = word.length() - 2;
@@ -94,31 +109,187 @@ public class normalization {
      * fil(ing) → file
      */
     public static String step1b(String word) {
-        // if the word contains 'at' or 'bl' or 'iz'
-        if (word.contains("at") || word.contains("bl") || word.contains("iz")) {
-            // remove the ending
-            word = word.substring(0, word.length()) + "e";
-            System.out.println("'e' change: " + word);
-            return word;
-        } else {
+        // if the word ends with 'ed'
+        if (word.endsWith("ed")) {
+            // if the word contains 'at' or 'bl' or 'iz'
+            if (word.contains("at") || word.contains("bl") || word.contains("iz")) {
+                // remove the ending
+                word = word.substring(0, word.length()) + "e";
+                System.out.println("'e' change: " + word);
+                return word;
+            }
+        }
+        else {
             // index penultimate or get the last 2 index letter of stem.
             int index = word.length() - 2;
             // if the word contains double consonant then remove the last letter.
-            if (word.charAt(index) == 'l' || word.charAt(index) == 's' || word.charAt(index) == 'z') {
+            if (word.charAt(index) == 'p' || word.charAt(index) == 'n') {
                 word = word.substring(0, word.length() - 1);
                 System.out.println("Last letter removed: " + word);
                 return word;
-            } else {
-                // if the word contains double consonant then remove the last letter.
-                if (word.charAt(index) == 'd') {
-                    word = word.substring(0, word.length() - 1);
-                    System.out.println("Last letter removed: " + word);
-                    return word;
-                }
             }
         }
-        // return the stem word
+    // return the stem word
+    return word;
+
+    }
+
+    private static String step2(String word) {
+        // if word ends with "fulness" then change it to "ful", "ousness" then change it to "ous", "iveness" then change it to "ive"
+        if (word.endsWith("fulness") || word.endsWith("ousness") || word.endsWith("iveness")) {
+            word = word.substring(0, word.length() - 4);
+            System.out.println("'ful/ous' change: " + word);
+            return word;
+        }
+        // if word ends with "enci" then change it to "ence" , "anci" then change it to "ance","abli" then change it to "able"
+        if (word.endsWith("enci") || word.endsWith("anci") || word.endsWith("abli")) {
+            word = word.substring(0, word.length() - 1) + "e";
+            System.out.println("'ence' change: " + word);
+            return word;
+        }
+        // if word ends with "ational" then change it to "ate"
+        if (word.endsWith("ational")) {
+            word = word.substring(0, word.length() - 5) + "e";
+            System.out.println("'ate' change: " + word);
+            return word;
+        }
+        // if word ends with "tional" then change it to "tion"
+        if (word.endsWith("tional")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'tion' change: " + word);
+            return word;
+        }
+        // if word ends with "izer" then change it to "ize"
+        if (word.endsWith("izer")) {
+            word = word.substring(0, word.length() - 1);
+            System.out.println("'ize' change: " + word);
+            return word;
+        }
+        // if word ends with "alli" then change it to "al"
+        if (word.endsWith("alli")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'al' change: " + word);
+            return word;
+        }
+        // if word ends with "entli" then change it to "ent"
+        if (word.endsWith("entli")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'ent' change: " + word);
+            return word;
+        }
+        // if word ends with "eli" then change it to "e"
+        if (word.endsWith("eli")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'e' change: " + word);
+            return word;
+        }
+        // if word ends with "ousli" then change it to "ous"
+        if (word.endsWith("ousli")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'ous' change: " + word);
+            return word;
+        }
+        // if word ends with "ization" then change it to "ize"
+        if (word.endsWith("ization")) {
+            word = word.substring(0, word.length() - 5) + "e";
+            System.out.println("'ize' change: " + word);
+            return word;
+        }
+        // if word ends with "ation" then change it to "ate"
+        if (word.endsWith("ation")) {
+            word = word.substring(0, word.length() - 3) + "e";
+            System.out.println("'ate' change: " + word);
+            return word;
+        }
+        // if word ends with "ator" then change it to "ate"
+        if (word.endsWith("ator")) {
+            word = word.substring(0, word.length() - 2) + "e";
+            System.out.println("'ate' change: " + word);
+            return word;
+        }
+        // if word ends with "alism" then change it to "al"
+        if (word.endsWith("alism")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'al' change: " + word);
+            return word;
+        }
+        // if word ends with "aliti" then change it to "al"
+        if (word.endsWith("aliti")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'al' change: " + word);
+            return word;
+        }
+        // if word ends with "iviti" then change it to "ive"
+        if (word.endsWith("iviti")) {
+            word = word.substring(0, word.length() - 3) + "e";
+            System.out.println("'ive' change: " + word);
+            return word;
+        }
+        // if word ends with "biliti" then change it to "ble"
+        if (word.endsWith("biliti")) {
+            word = word.substring(0, word.length() - 5) + "le";
+            System.out.println("'ble' change: " + word);
+            return word;
+        }
         return word;
+    }
+
+    private static String step3(String word) {
+        //if words ends with 'icate' then remove the last 3 letters.
+        if (word.endsWith("icate")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'icate' change: " + word);
+            return word;
+        }   
+        //if words ends with 'ative' then remove the last 5 letters.
+        if (word.endsWith("ative")) {
+            word = word.substring(0, word.length() - 5);
+            System.out.println("'ative' change: " + word);
+            return word;
+        }
+        //if words ends with 'alize' then remove the last 3 letters.
+        if (word.endsWith("alize")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'alize' change: " + word);
+            return word;
+        }
+        //if words ends with 'iciti' then remove the last 3 letters.
+        if (word.endsWith("iciti")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'iciti' change: " + word);
+            return word;
+        }
+        //if words ends with 'ical' then remove the last 2 letters.
+        if (word.endsWith("ical")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'ical' change: " + word);
+            return word;
+        }
+        //if words ends with 'ful' then remove the last 3 letters.
+        if (word.endsWith("ful")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'ful' change: " + word);
+            return word;
+        }
+        //if words ends with 'ness' then remove the last 4 letters.
+        if (word.endsWith("ness")) {
+            word = word.substring(0, word.length() - 4);
+            System.out.println("'ness' change: " + word);
+            return word;
+        }
+        return word;
+    }
+
+    private static String step4(String word) {
+        return null;
+    }
+
+    private static String step5a(String word) {
+        return null;
+    }
+
+    private static String step5b(String word) {
+        return null;
     }
 
     // remove plurals
@@ -201,9 +372,6 @@ public class normalization {
             }
         }
         // if the word does not end with 'ed' or 'ing' then return the word
-        else {
-            return word;
-        }
         // return the stem word
         return word;
     }
