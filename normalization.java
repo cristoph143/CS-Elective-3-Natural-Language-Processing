@@ -1,5 +1,9 @@
 import java.util.Scanner;
-
+/*
+Porter Stemming Algorithm Guide Link: https://snowballstem.org/algorithms/porter/stemmer.html
+Sample English Vocabulary Link: https://raw.githubusercontent.com/snowballstem/snowball-data/master/porter/voc.txt
+Stemmed Equivalent Link: https://raw.githubusercontent.com/snowballstem/snowball-data/master/porter/stemmed.txt
+*/
 public class normalization {
     public static void main(String[] args) {
         try (// enter a word
