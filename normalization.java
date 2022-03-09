@@ -48,47 +48,6 @@ public class normalization {
         // Step 5b.
         word = step5b(word);
         System.out.println("Step 5b: " + word);
-        /*
-         * // index penultimate or get the last 2 index letter of stem.
-         * int index = word.length() - 2;
-         * // if words contains double suffix then map to single suffix
-         * if (word.endsWith("es") || word.endsWith("s")) {
-         * word = mapToSingleSuffix(word);
-         * System.out.println("Map to single suffix: " + word);
-         * return word;
-         * } else {
-         * // if word does not contain double suffix then index the final letter of the
-         * // word.
-         * index = word.length() - 1;
-         * }
-         * // if the word ending match with the stem then remove the ending.
-         * if (word.endsWith("y") && word.charAt(index) == 'a') {
-         * word = word.substring(0, index);
-         * System.out.println("Stem removed: " + word);
-         * return word;
-         * } else {
-         * // index penultimate or get the last 2 index letter of stem.
-         * index = word.length() - 2;
-         * }
-         * // if the word ending match with the stem then remove the ending.
-         * if (word.endsWith("e") && word.charAt(index) == 'a') {
-         * // if it satisfy '<c>vcvc<v>' then remove the ending.
-         * if (word.length() > 4 && word.charAt(word.length() - 4) == 'a' &&
-         * word.charAt(word.length() - 3) == 'c') {
-         * word = word.substring(0, index);
-         * System.out.println("Stem removed: " + word);
-         * return word;
-         * }
-         * } else {
-         * // index penultimate or get the last 2 index letter of stem.
-         * index = word.length() - 2;
-         * }
-         * // remove final 'e' only if more than one consonant is present in stem.
-         * if (word.endsWith("e") && word.length() > 2 && word.charAt(index) != 'a') {
-         * word = word.substring(0, index);
-         * System.out.println("Stem removed: " + word);
-         * }
-         */
         // return the stem word
         return word;
     }
