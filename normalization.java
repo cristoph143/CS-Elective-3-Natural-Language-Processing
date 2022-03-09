@@ -4,14 +4,12 @@ public class normalization {
     public static void main(String[] args) {
         try (// enter a word
                 Scanner input = new Scanner(System.in)) {
-            System.out.print("Enter a word: ");
-            String word = input.nextLine();
-
-            // call stem and save it to variable
-            String stem = stem(word);
-            // print the word and the stem
-            System.out.println("Word: " + word);
-            System.out.println("Stem: " + stem);
+                System.out.print("Enter a word: ");
+                String word = input.nextLine();
+                String stem = stem(word);
+                // print the word and the stem
+                System.out.println("Word: " + word);
+                System.out.println("Stem: " + stem);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -24,53 +22,101 @@ public class normalization {
         System.out.println("Lower case: " + word);
         // Step1a. remove and recode the plurals
         word = removePlurals(word);
+        // Step 1b.
         System.out.println("Plurals removed: " + word);
         if (word.endsWith("ed") || word.endsWith("ing")) {
             word = removeEd(word);
             System.out.println("'ed' or 'ing' removed: " + word);
         } else {
+            // Step 1c.
             word = recodeY(word);
         }
         System.out.println("Stem recoded: " + word);
-        // index penultimate or get the last 2 index letter of stem.
-        int index = word.length() - 2;
-        // if words contains double suffix then map to single suffix
-        if (word.endsWith("es") || word.endsWith("s")) {
-            word = mapToSingleSuffix(word);
-            System.out.println("Map to single suffix: " + word);
-            return word;
-        } else {
-            // if word does not contain double suffix then index the final letter of the
-            // word.
-            index = word.length() - 1;
-        }
-        // if the word ending match with the stem then remove the ending.
-        if (word.endsWith("y") && word.charAt(index) == 'a') {
-            word = word.substring(0, index);
-            System.out.println("Stem removed: " + word);
-            return word;
-        } else {
-            // index penultimate or get the last 2 index letter of stem.
-            index = word.length() - 2;
-        }
-        // if the word ending match with the stem then remove the ending.
-        if (word.endsWith("e") && word.charAt(index) == 'a') {
-            // if it satisfy '<c>vcvc<v>' then remove the ending.
-            if (word.length() > 4 && word.charAt(word.length() - 4) == 'a' && word.charAt(word.length() - 3) == 'c') {
-                word = word.substring(0, index);
-                System.out.println("Stem removed: " + word);
-                return word;
-            }
-        } else {
-            // index penultimate or get the last 2 index letter of stem.
-            index = word.length() - 2;
-        }
-        // remove final 'e' only if more than one consonant is present in stem.
-        if (word.endsWith("e") && word.length() > 2 && word.charAt(index) != 'a') {
-            word = word.substring(0, index);
-            System.out.println("Stem removed: " + word);
-        }
+        word = step1b(word);
 
+        /*
+         * // index penultimate or get the last 2 index letter of stem.
+         * int index = word.length() - 2;
+         * // if words contains double suffix then map to single suffix
+         * if (word.endsWith("es") || word.endsWith("s")) {
+         * word = mapToSingleSuffix(word);
+         * System.out.println("Map to single suffix: " + word);
+         * return word;
+         * } else {
+         * // if word does not contain double suffix then index the final letter of the
+         * // word.
+         * index = word.length() - 1;
+         * }
+         * // if the word ending match with the stem then remove the ending.
+         * if (word.endsWith("y") && word.charAt(index) == 'a') {
+         * word = word.substring(0, index);
+         * System.out.println("Stem removed: " + word);
+         * return word;
+         * } else {
+         * // index penultimate or get the last 2 index letter of stem.
+         * index = word.length() - 2;
+         * }
+         * // if the word ending match with the stem then remove the ending.
+         * if (word.endsWith("e") && word.charAt(index) == 'a') {
+         * // if it satisfy '<c>vcvc<v>' then remove the ending.
+         * if (word.length() > 4 && word.charAt(word.length() - 4) == 'a' &&
+         * word.charAt(word.length() - 3) == 'c') {
+         * word = word.substring(0, index);
+         * System.out.println("Stem removed: " + word);
+         * return word;
+         * }
+         * } else {
+         * // index penultimate or get the last 2 index letter of stem.
+         * index = word.length() - 2;
+         * }
+         * // remove final 'e' only if more than one consonant is present in stem.
+         * if (word.endsWith("e") && word.length() > 2 && word.charAt(index) != 'a') {
+         * word = word.substring(0, index);
+         * System.out.println("Stem removed: " + word);
+         * }
+         */
+        // return the stem word
+        return word;
+    }
+
+    /*
+     * If the second or third of the rules in Step 1b is successful, the following
+     * is done:
+     * AT → ATE conflat(ed) → conflate
+     * BL → BLE troubl(ed) → trouble
+     * IZ → IZE siz(ed) → size
+     * (*d and not (*L or *S or *Z)) → single letter hopp(ing) → hop
+     * tann(ed) → tan
+     * fall(ing) → fall
+     * hiss(ing) → hiss
+     * fizz(ed) → fizz
+     * (m=1 and *o) → E fail(ing) → fail
+     * fil(ing) → file
+     */
+    public static String step1b(String word) {
+        // if the word contains 'at' or 'bl' or 'iz'
+        if (word.contains("at") || word.contains("bl") || word.contains("iz")) {
+            // remove the ending
+            word = word.substring(0, word.length()) + "e";
+            System.out.println("'e' change: " + word);
+            return word;
+        } else {
+            // index penultimate or get the last 2 index letter of stem.
+            int index = word.length() - 2;
+            // if the word contains double consonant then remove the last letter.
+            if (word.charAt(index) == 'l' || word.charAt(index) == 's' || word.charAt(index) == 'z') {
+                word = word.substring(0, word.length() - 1);
+                System.out.println("Last letter removed: " + word);
+                return word;
+            } else {
+                // if the word contains double consonant then remove the last letter.
+                if (word.charAt(index) == 'd') {
+                    word = word.substring(0, word.length() - 1);
+                    System.out.println("Last letter removed: " + word);
+                    return word;
+                }
+            }
+        }
         // return the stem word
         return word;
     }
@@ -83,7 +129,7 @@ public class normalization {
          * ties → ti
          * SS → SS caress → caress
          * S → cats → cat
-        */
+         */
         // if the word ends with 'sses' then remove 'sses'
         if (word.endsWith("sses")) {
             word = word.substring(0, word.length() - 2);
@@ -123,7 +169,7 @@ public class normalization {
          * bled → bled
          * (*v*) ING → motoring → motor
          * sing → sing
-        */
+         */
         // if the word ends with 'eed' then remove 'eed'
         if (word.endsWith("eed")) {
             // if the word contains 'eed' and the letter before 'eed' is not a vowel then
