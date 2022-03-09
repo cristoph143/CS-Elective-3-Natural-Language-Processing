@@ -281,7 +281,36 @@ public class normalization {
     }
 
     private static String step4(String word) {
-        return null;
+        //if the words end with 'ement' then remove the last 5 letters.
+        if (word.endsWith("ement")) {
+            word = word.substring(0, word.length() - 5);
+            System.out.println("'5' change: " + word);
+            return word;
+        }
+        //if the words end with 'ance' then remove the last 4 letters.
+        if (word.endsWith("ance") || word.endsWith("ence") || word.endsWith("able") 
+        || word.endsWith("ible") || word.endsWith("ment") || word.endsWith("ness") 
+        || word.endsWith("ship")) { 
+            word = word.substring(0, word.length() - 4);
+            System.out.println("'4' change: " + word);
+            return word;
+        }
+        //if the words end with 'ant' then remove the last 3 letters.
+        if (word.endsWith("ant") || word.endsWith("ent") || word.endsWith("ism")
+        || word.endsWith("ate") || word.endsWith("iti") || word.endsWith("ous")
+        || word.endsWith("ion") || word.endsWith("ive") || word.endsWith("ize")) {
+            word = word.substring(0, word.length() - 3);
+            System.out.println("'3' change: " + word);
+            return word;
+        }
+        //if the words end with 'ou' then remove the last 2 letters.
+        if (word.endsWith("ou") || word.endsWith("ou") || word.endsWith("er")
+        || word.endsWith("al") || word.endsWith("er") || word.endsWith("ic")) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'2' change: " + word);
+            return word;
+        }
+        return word;
     }
 
     private static String step5a(String word) {
