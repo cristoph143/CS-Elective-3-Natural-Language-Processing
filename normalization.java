@@ -314,11 +314,29 @@ public class normalization {
     }
 
     private static String step5a(String word) {
-        return null;
+        //if the words end with 'e' then remove the last letter.
+        if (word.endsWith("e")) {
+            word = word.substring(0, word.length() - 1);
+            System.out.println("'e' change: " + word);
+            return word;
+        }
+        //if the words end with 'l' and the next letter is a vowel then remove the last letter.
+        if (word.endsWith("l") && isVowel(word.charAt(word.length() - 2))) {
+            word = word.substring(0, word.length() - 1);
+            System.out.println("'l' change: " + word);
+            return word;
+        }
+        return word;
     }
 
     private static String step5b(String word) {
-        return null;
+        //if the words end with 'll' and the next letter is a vowel then remove the last 2 letters.
+        if (word.endsWith("ll") && isVowel(word.charAt(word.length() - 2))) {
+            word = word.substring(0, word.length() - 2);
+            System.out.println("'ll' change: " + word);
+            return word;
+        }
+        return word;
     }
 
     // remove plurals
