@@ -9,6 +9,13 @@
             "name": "Launch normalization",
             "request": "launch",
             "mainClass": "normalization",
+            "projectName": "CS-Elective-3-Natural-Language-Processing_f2f838e5"
+        },
+        {
+            "type": "java",
+            "name": "Launch normalization",
+            "request": "launch",
+            "mainClass": "normalization",
             "projectName": "Java Tokenization_dc2fd456"
         },
         {
