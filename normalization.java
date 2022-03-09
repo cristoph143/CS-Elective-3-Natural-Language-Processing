@@ -7,9 +7,11 @@ public class normalization {
             System.out.print("Enter a word: ");
             String word = input.nextLine();
             String stem = stem(word);
-            // print the word and the stem
+            String lemma = lemmatize(word);
+            // print the word, the stem and the lemma.
             System.out.println("Word: " + word);
             System.out.println("Stem: " + stem);
+            System.out.println("Lemma: " + lemma);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -410,5 +412,10 @@ public class normalization {
             word = word.substring(0, word.length() - 1);
         }
         return word;
+    }
+
+    //return the lemma word using the lemmatization algorithm without using library
+    public static String lemmatize(String word) {
+        return null;
     }
 }
