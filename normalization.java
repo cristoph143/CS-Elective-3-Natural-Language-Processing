@@ -27,13 +27,12 @@ public class normalization {
         if (word.endsWith("ed") || word.endsWith("ing")) {
             word = removeEd(word);
             System.out.println("'ed' or 'ing' removed: " + word);
-        } else {
-            // Step 1c.
-            word = recodeY(word);
         }
         System.out.println("Stem recoded: " + word);
         word = step1b(word);
         System.out.println("Step 1b: " + word);
+        // Step 1c.
+        word = recodeY(word);
         // Step 2.
         word = step2(word);
         System.out.println("Step 2: " + word);
@@ -356,7 +355,7 @@ public class normalization {
         }
         // if the word ends with 'ies' then remove 'ies'
         else if (word.endsWith("ies")) {
-            word = word.substring(0, word.length() - 2);
+            word = word.substring(0, word.length() - 3) + 'y';
             System.out.println("Plurals removed: " + word);
             return word;
         }
