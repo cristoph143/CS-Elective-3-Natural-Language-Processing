@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 /*
 Porter Stemming Algorithm Guide Link: https://snowballstem.org/algorithms/porter/stemmer.html
 Sample English Vocabulary Link: https://raw.githubusercontent.com/snowballstem/snowball-data/master/porter/voc.txt
@@ -33,12 +34,14 @@ public class normalization {
         if (word.endsWith("ed") || word.endsWith("ing")) {
             word = removeEd(word);
             System.out.println("'ed' or 'ing' removed: " + word);
+        } else {
+            // Step 1c.
+            word = recodeY(word);
+            System.out.println("Step 1c: " + word);
         }
         System.out.println("Stem recoded: " + word);
         word = step1b(word);
         System.out.println("Step 1b: " + word);
-        // Step 1c.
-        word = recodeY(word);
         // Step 2.
         word = step2(word);
         System.out.println("Step 2: " + word);
@@ -82,30 +85,40 @@ public class normalization {
                 System.out.println("'e' change: " + word);
                 return word;
             }
-        }
-        else {
-            // index penultimate or get the last 2 index letter of stem.
-            int index = word.length() - 2;
-            // if the word contains double consonant then remove the last letter.
-            if (word.charAt(index) == 'p' || word.charAt(index) == 'n') {
-                word = word.substring(0, word.length() - 1);
-                System.out.println("Last letter removed: " + word);
-                return word;
+        } else {
+            // index penultimate or get the last index letter of stem.
+            int index = word.length() - 1;
+            // if the word contains consecutive double consonant then remove the last letter.
+            if (word.charAt(index) == 'p' || word.charAt(index) == 'n' || word.charAt(index) == 'r'
+            || word.charAt(index) == 'm') {
+                    if (word.charAt(index) == word.charAt(index - 1)) {
+                    word = word.substring(0, word.length() - 1);
+                    System.out.println("Remove consecutive double consonant: " + word);
+                    System.out.println("Last letter removed: " + word);
+                    return word;
+                }
             }
+            // if (word.charAt(index) == 'p' || word.charAt(index) == 'n' || word.charAt(index) == 'r') {
+            //     word = word.substring(0, word.length() - 1);
+            //     System.out.println("Last letter removed: " + word);
+            //     return word;
+            // }
         }
-    // return the stem word
-    return word;
+        // return the stem word
+        return word;
 
     }
 
     private static String step2(String word) {
-        // if word ends with "fulness" then change it to "ful", "ousness" then change it to "ous", "iveness" then change it to "ive"
+        // if word ends with "fulness" then change it to "ful", "ousness" then change it
+        // to "ous", "iveness" then change it to "ive"
         if (word.endsWith("fulness") || word.endsWith("ousness") || word.endsWith("iveness")) {
             word = word.substring(0, word.length() - 4);
             System.out.println("'ful/ous' change: " + word);
             return word;
         }
-        // if word ends with "enci" then change it to "ence" , "anci" then change it to "ance","abli" then change it to "able"
+        // if word ends with "enci" then change it to "ence" , "anci" then change it to
+        // "ance","abli" then change it to "able"
         if (word.endsWith("enci") || word.endsWith("anci") || word.endsWith("abli")) {
             word = word.substring(0, word.length() - 1) + "e";
             System.out.println("'ence' change: " + word);
@@ -199,43 +212,43 @@ public class normalization {
     }
 
     private static String step3(String word) {
-        //if words ends with 'icate' then remove the last 3 letters.
+        // if words ends with 'icate' then remove the last 3 letters.
         if (word.endsWith("icate")) {
             word = word.substring(0, word.length() - 3);
             System.out.println("'icate' change: " + word);
             return word;
-        }   
-        //if words ends with 'ative' then remove the last 5 letters.
+        }
+        // if words ends with 'ative' then remove the last 5 letters.
         if (word.endsWith("ative")) {
             word = word.substring(0, word.length() - 5);
             System.out.println("'ative' change: " + word);
             return word;
         }
-        //if words ends with 'alize' then remove the last 3 letters.
+        // if words ends with 'alize' then remove the last 3 letters.
         if (word.endsWith("alize")) {
             word = word.substring(0, word.length() - 3);
             System.out.println("'alize' change: " + word);
             return word;
         }
-        //if words ends with 'iciti' then remove the last 3 letters.
+        // if words ends with 'iciti' then remove the last 3 letters.
         if (word.endsWith("iciti")) {
             word = word.substring(0, word.length() - 3);
             System.out.println("'iciti' change: " + word);
             return word;
         }
-        //if words ends with 'ical' then remove the last 2 letters.
+        // if words ends with 'ical' then remove the last 2 letters.
         if (word.endsWith("ical")) {
             word = word.substring(0, word.length() - 2);
             System.out.println("'ical' change: " + word);
             return word;
         }
-        //if words ends with 'ful' then remove the last 3 letters.
+        // if words ends with 'ful' then remove the last 3 letters.
         if (word.endsWith("ful")) {
             word = word.substring(0, word.length() - 3);
             System.out.println("'ful' change: " + word);
             return word;
         }
-        //if words ends with 'ness' then remove the last 4 letters.
+        // if words ends with 'ness' then remove the last 4 letters.
         if (word.endsWith("ness")) {
             word = word.substring(0, word.length() - 4);
             System.out.println("'ness' change: " + word);
@@ -245,31 +258,31 @@ public class normalization {
     }
 
     private static String step4(String word) {
-        //if the words end with 'ement' then remove the last 5 letters.
+        // if the words end with 'ement' then remove the last 5 letters.
         if (word.endsWith("ement")) {
             word = word.substring(0, word.length() - 5);
             System.out.println("'5' change: " + word);
             return word;
         }
-        //if the words end with 'ance' then remove the last 4 letters.
-        if (word.endsWith("ance") || word.endsWith("ence") || word.endsWith("able") 
-        || word.endsWith("ible") || word.endsWith("ment") || word.endsWith("ness") 
-        || word.endsWith("ship")) { 
+        // if the words end with 'ance' then remove the last 4 letters.
+        if (word.endsWith("ance") || word.endsWith("ence") || word.endsWith("able")
+                || word.endsWith("ible") || word.endsWith("ment") || word.endsWith("ness")
+                || word.endsWith("ship")) {
             word = word.substring(0, word.length() - 4);
             System.out.println("'4' change: " + word);
             return word;
         }
-        //if the words end with 'ant' then remove the last 3 letters.
+        // if the words end with 'ant' then remove the last 3 letters.
         if (word.endsWith("ant") || word.endsWith("ent") || word.endsWith("ism")
-        || word.endsWith("ate") || word.endsWith("iti") || word.endsWith("ous")
-        || word.endsWith("ion") || word.endsWith("ive") || word.endsWith("ize")) {
+            || word.endsWith("iti") || word.endsWith("ous") || word.endsWith("ion") 
+            || word.endsWith("ive") || word.endsWith("ize")) {
             word = word.substring(0, word.length() - 3);
             System.out.println("'3' change: " + word);
             return word;
         }
-        //if the words end with 'ou' then remove the last 2 letters.
+        // if the words end with 'ou' then remove the last 2 letters.
         if (word.endsWith("ou") || word.endsWith("ou") || word.endsWith("er")
-        || word.endsWith("al") || word.endsWith("er") || word.endsWith("ic")) {
+                || word.endsWith("al") || word.endsWith("er") || word.endsWith("ic")) {
             word = word.substring(0, word.length() - 2);
             System.out.println("'2' change: " + word);
             return word;
@@ -278,13 +291,18 @@ public class normalization {
     }
 
     private static String step5a(String word) {
-        //if the words end with 'e' then remove the last letter.
+        // if the words end with 'e' then remove the last letter.
         if (word.endsWith("e")) {
+            //if word is less than 6 then return it.
+            if (word.length() < 6) {
+                return word;
+            }
             word = word.substring(0, word.length() - 1);
             System.out.println("'e' change: " + word);
             return word;
         }
-        //if the words end with 'l' and the next letter is a vowel then remove the last letter.
+        // if the words end with 'l' and the next letter is a vowel then remove the last
+        // letter.
         if (word.endsWith("l") && isVowel(word.charAt(word.length() - 2))) {
             word = word.substring(0, word.length() - 1);
             System.out.println("'l' change: " + word);
@@ -294,7 +312,8 @@ public class normalization {
     }
 
     private static String step5b(String word) {
-        //if the words end with 'll' and the next letter is a vowel then remove the last 2 letters.
+        // if the words end with 'll' and the next letter is a vowel then remove the
+        // last 2 letters.
         if (word.endsWith("ll") && isVowel(word.charAt(word.length() - 2))) {
             word = word.substring(0, word.length() - 2);
             System.out.println("'ll' change: " + word);
@@ -418,8 +437,56 @@ public class normalization {
         return word;
     }
 
-    //return the lemma word using the lemmatization algorithm without using library
+    // return the lemma word using the lemmatization algorithm without using library
     public static String lemmatize(String word) {
-        return null;
+        // if the word is empty then return the word
+        if (word.isEmpty()) {
+            return word;
+        }
+        // convert word into lowercase
+        word = word.toLowerCase();
+        // derive it to common base
+        word = deriveToCommonBase(word);
+        return word;
     }
+
+    private static String deriveToCommonBase(String word) {
+        // if the word is empty then return the word
+        if (word.isEmpty()) {
+            return word;
+        }
+        
+        //noun -s (dogs -> dog, ponies -> pony,..., mice -> mouse)
+        if (word.endsWith("s")) {
+            word = removePlurals(word);
+        }
+        //verb -s (does -> do,...)
+        else if (word.endsWith("es")) {
+            word = removePlurals(word);
+        }
+        //verb -ing
+        else if (word.endsWith("ing")) {
+            word = removeEd(word);
+        }
+        //verb -ed, -en
+        else if (word.endsWith("ed") || word.endsWith("en")) {
+            word = removeEd(word);
+        }
+        //adjective/adverb -er
+        else if (word.endsWith("er")) {
+            word = removeEd(word);
+        }
+        //adjective/adverb -est
+        else if (word.endsWith("est")) {
+            word = removeEd(word);
+        }
+        //cut off negative prefixes (un|in|im|non|dis|il|ir)
+        else if (word.startsWith("un") || word.startsWith("in") || word.startsWith("im")
+                || word.startsWith("non") || word.startsWith("dis") || word.startsWith("il")
+                || word.startsWith("ir")) {
+            word = word.substring(2);
+        }
+        return word;
+    }
+
 }
