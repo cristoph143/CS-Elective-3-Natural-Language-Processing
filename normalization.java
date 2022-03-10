@@ -86,23 +86,15 @@ public class normalization {
                 return word;
             }
         } else {
-            // index penultimate or get the last index letter of stem.
-            int index = word.length() - 1;
-            // if the word contains consecutive double consonant then remove the last letter.
-            if (word.charAt(index) == 'p' || word.charAt(index) == 'n' || word.charAt(index) == 'r'
-            || word.charAt(index) == 'm') {
-                    if (word.charAt(index) == word.charAt(index - 1)) {
-                    word = word.substring(0, word.length() - 1);
-                    System.out.println("Remove consecutive double consonant: " + word);
-                    System.out.println("Last letter removed: " + word);
-                    return word;
-                }
+            // if the word contains consecutive double consonant then remove the last
+            // letter.
+            if (word.endsWith("bb") || word.endsWith("dd") || word.endsWith("gg") || word.endsWith("tt")
+                    || word.endsWith("mm") || word.endsWith("nn") || word.endsWith("pp") || word.endsWith("rr")) {
+                word = word.substring(0, word.length() - 1);
+                System.out.println("Remove consecutive double consonant: " + word);
+                System.out.println("Last letter removed: " + word);
+                return word;
             }
-            // if (word.charAt(index) == 'p' || word.charAt(index) == 'n' || word.charAt(index) == 'r') {
-            //     word = word.substring(0, word.length() - 1);
-            //     System.out.println("Last letter removed: " + word);
-            //     return word;
-            // }
         }
         // return the stem word
         return word;
@@ -156,6 +148,10 @@ public class normalization {
         }
         // if word ends with "eli" then change it to "e"
         if (word.endsWith("eli")) {
+            // if word has less than five then return word
+            if (word.length() < 5) {
+                return word;
+            }
             word = word.substring(0, word.length() - 2);
             System.out.println("'e' change: " + word);
             return word;
@@ -274,8 +270,8 @@ public class normalization {
         }
         // if the words end with 'ant' then remove the last 3 letters.
         if (word.endsWith("ant") || word.endsWith("ent") || word.endsWith("ism")
-            || word.endsWith("iti") || word.endsWith("ous") || word.endsWith("ion") 
-            || word.endsWith("ive") || word.endsWith("ize")) {
+                || word.endsWith("iti") || word.endsWith("ous") || word.endsWith("ion")
+                || word.endsWith("ive") || word.endsWith("ize")) {
             word = word.substring(0, word.length() - 3);
             System.out.println("'3' change: " + word);
             return word;
@@ -293,7 +289,7 @@ public class normalization {
     private static String step5a(String word) {
         // if the words end with 'e' then remove the last letter.
         if (word.endsWith("e")) {
-            //if word is less than 6 then return it.
+            // if word is less than 6 then return it.
             if (word.length() < 6) {
                 return word;
             }
@@ -445,46 +441,52 @@ public class normalization {
         }
         // convert word into lowercase
         word = word.toLowerCase();
-        // derive it to common base
-        word = deriveToCommonBase(word);
-        return word;
-    }
-
-    private static String deriveToCommonBase(String word) {
-        // if the word is empty then return the word
         if (word.isEmpty()) {
             return word;
         }
-        
-        //noun -s (dogs -> dog, ponies -> pony,..., mice -> mouse)
+
+        // noun -s (dogs -> dog, ponies -> pony,..., mice -> mouse)
         if (word.endsWith("s")) {
             word = removePlurals(word);
+            System.out.println("Noun -s: " + word);
         }
-        //verb -s (does -> do,...)
+        // verb -s (does -> do,...)
         else if (word.endsWith("es")) {
             word = removePlurals(word);
+            System.out.println("Verb -s: " + word);
         }
-        //verb -ing
+        // verb -ing
         else if (word.endsWith("ing")) {
             word = removeEd(word);
+            System.out.println("Verb -ing: " + word);
+            // remove double consonant at the end of word
+            if (word.endsWith("bb") || word.endsWith("dd") || word.endsWith("gg") || word.endsWith("tt")
+            || word.endsWith("mm") || word.endsWith("nn") || word.endsWith("pp") || word.endsWith("rr")) {
+                word = word.substring(0, word.length() - 1);
+                System.out.println("Double consonant removed: " + word);
+            }
         }
-        //verb -ed, -en
-        else if (word.endsWith("ed") || word.endsWith("en")) {
-            word = removeEd(word);
+        // verb -ed, -en
+        else if (word.endsWith("ed")) {
+            word = step1b(word);
+            System.out.println("Verb -ed, -en: " + word);
         }
-        //adjective/adverb -er
+        // adjective/adverb -er
         else if (word.endsWith("er")) {
             word = removeEd(word);
+            System.out.println("Adjective/adverb -er: " + word);
         }
-        //adjective/adverb -est
+        // adjective/adverb -est
         else if (word.endsWith("est")) {
             word = removeEd(word);
+            System.out.println("Adjective/adverb -est: " + word);
         }
-        //cut off negative prefixes (un|in|im|non|dis|il|ir)
+        // cut off negative prefixes (un|in|im|non|dis|il|ir)
         else if (word.startsWith("un") || word.startsWith("in") || word.startsWith("im")
                 || word.startsWith("non") || word.startsWith("dis") || word.startsWith("il")
                 || word.startsWith("ir")) {
             word = word.substring(2);
+            System.out.println("Negative prefixes: " + word);
         }
         return word;
     }
