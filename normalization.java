@@ -118,7 +118,7 @@ public class normalization {
         }
         // if word ends with "ational" then change it to "ate"
         if (word.endsWith("ational")) {
-            word = word.substring(0, word.length() - 5) + "e";
+            word = word.substring(0, word.length() - 2);
             System.out.println("'ate' change: " + word);
             return word;
         }
@@ -168,12 +168,7 @@ public class normalization {
             System.out.println("'ize' change: " + word);
             return word;
         }
-        // if word ends with "ation" then change it to "ate"
-        if (word.endsWith("ation")) {
-            word = word.substring(0, word.length() - 3) + "e";
-            System.out.println("'ate' change: " + word);
-            return word;
-        }
+        
         // if word ends with "ator" then change it to "ate"
         if (word.endsWith("ator")) {
             word = word.substring(0, word.length() - 2) + "e";
@@ -480,13 +475,6 @@ public class normalization {
         else if (word.endsWith("est")) {
             word = removeEd(word);
             System.out.println("Adjective/adverb -est: " + word);
-        }
-        // cut off negative prefixes (un|in|im|non|dis|il|ir)
-        else if (word.startsWith("un") || word.startsWith("in") || word.startsWith("im")
-                || word.startsWith("non") || word.startsWith("dis") || word.startsWith("il")
-                || word.startsWith("ir")) {
-            word = word.substring(2);
-            System.out.println("Negative prefixes: " + word);
         }
         return word;
     }
